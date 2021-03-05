@@ -24,6 +24,20 @@ diContainer.factory('User', require('./models/user-model'));
  */
 diContainer.factory('HashService', require('./service/hash-service'));
 diContainer.factory('TokenService', require('./service/token-service'));
+diContainer.factory('UserService', require('./service/user-service'));
+
+/**
+ * Interactor
+ */
+diContainer.factory('PatientInteractor', require('./interactor/patient-interactor'));
+
+
+/**
+ * Controller
+ */
+diContainer.factory('PatientController', require('./controller/patient-controller'));
+
+
 
 /**
  * Server
