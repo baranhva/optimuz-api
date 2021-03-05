@@ -4,6 +4,12 @@ module.exports = {
     db: {
       url: ''
     },
+    logging: {
+      network: {
+        simple: ':method - :url - :status - :response-time ms - :res[content-length] - :date[iso] - :remote-addr',
+        detailed: ':remote-addr - :remote-user [:date[iso]] ":method - :url" :status - :response-time ms - :res[content-length] ":referrer" ":user-agent"'
+      }
+    },
     user: {
       types: {
           admin: "ADMIN",
