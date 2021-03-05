@@ -6,9 +6,9 @@ module.exports = {
     },
     user: {
       types: {
-          ADMIN: "ADMIN",
-          CARE_TAKER: "CARE_TAKER",
-          PATIENT: "PATIENT"
+          admin: "ADMIN",
+          caretaker: "CARE_TAKER",
+          patient: "PATIENT"
       }
     },
     jwt: {

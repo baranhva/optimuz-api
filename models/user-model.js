@@ -16,10 +16,11 @@ module.exports = function(db, DataTypes, config) {
             allowNull: false
         },
         lastName: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         },
         type: {
-            type: DataTypes.ENUM([config.user.types.ADMIN, config.user.types.CARE_TAKER, config.user.types.PATIENT]),
+            type: DataTypes.ENUM([config.user.types.admin, config.user.types.caretaker, config.user.types.patient]),
             allowNull: false
         }
     }, {
