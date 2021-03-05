@@ -4,7 +4,7 @@ module.exports = function(PatientInteractor) {
 
     let ctrl = {};
 
-    ctrl.createPatientAccount = function(req, res) {
+    ctrl.createPatientAccount = async function(req, res) {
         try {
             const {email, password, firstName, lastName} = req.body;
             await PatientInteractor.createPatientAccount(email, password, firstName, lastName);
