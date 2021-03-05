@@ -43,31 +43,28 @@ diContainer.factory('PatientController', require('./controller/patient-controlle
  * Server
  */
 
+const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const compression = require('compression');
 
- const express = require('express');
- const morgan = require('morgan');
- const cors = require('cors');
- const bodyParser = require('body-parser');
- const compression = require('compression');
+const server = express();
 
+// Middleware that enables Cross Origin Resource Sharing
+server.use(cors());
 
- const server = express();
+// Sets morgan as the logger and initialize it with our custom logging structure
+server.use(morgan(config.logging.network.detailed));
 
+// server.use(bodyParser.urlencoded({ extended: false }));
 
- // Middleware that enables Cross Origin Resource Sharing
- server.use(cors());
+// Parse JSON body and limit the request size to '250kb'
+server.use(bodyParser.json({limit: '250kb'}));
 
- // Sets morgan as the logger and initialize it with our custom logging structure
- server.use(morgan(config.logging.network.detailed));
+// Hide the fact that express is used
+server.disable('x-powered-by');
 
- // server.use(bodyParser.urlencoded({ extended: false }));
-
- // Parse JSON body and limit the request size to '250kb'
- server.use(bodyParser.json({limit: '250kb'}));
-
- // Hide the fact that express is used
- server.disable('x-powered-by');
-
- // compress all responses
- server.use(compression());
+// compress all responses
+server.use(compression());
 
