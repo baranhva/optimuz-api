@@ -1,13 +1,12 @@
 "use strict";
 
-module.exports = function(config, UserService, HashService) {
+module.exports = function(config, UserService) {
 
     let interactor = {};
 
     interactor.createPatientAccount = async function(email, password, firstName, lastName) {
-        const hashedPassword = await HashService.hash(password);
         const type = config.user.types.patient;
-        const user = await UserService.createUserInstance(email, hashedPassword, firstName, lastName, type);
+        const user = await UserService.createUser(email, password, firstName, lastName, type);
     };
 
     return interactor;

@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(db, DataTypes, config) {
+module.exports = function(config, db, DataTypes) {
 
     const User = db.define('User', {
         email: {
