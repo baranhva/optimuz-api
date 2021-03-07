@@ -5,14 +5,18 @@ global.Promise = Promise;
 
 const config = require('./config');
 
-const { Sequelize, DataTypes } = require('sequelize');
-
 const diContainer = require('./helper/di-container')();
 
 diContainer.register('bcryptjs', require('bcryptjs'));
 diContainer.register('jwt', require('jsonwebtoken'));
 
 diContainer.register('config', config);
+
+const { Sequelize, DataTypes } = require('sequelize');
+
+diContainer.register('Sequelize', Sequelize);
+diContainer.register('DataTypes', DataTypes);
+diContainer.factory('db', require('./db'));
 
 /**
  * Models
@@ -42,7 +46,6 @@ diContainer.factory('PatientController', require('./controller/patient-controlle
 /**
  * Server
  */
-
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -68,3 +71,49 @@ server.disable('x-powered-by');
 // compress all responses
 server.use(compression());
 
+/**
+ * Setting Up Of The Server
+ */
+let runningServer;
+
+runServer()
+    .then(onServerRunning)
+    .catch(catchErrorAndShutdown("startup"));
+
+
+function runServer() {
+    return new Promise(resolve => runningServer = server.listen(process.env.PORT || 3000, resolve));
+}
+
+
+ function onServerRunning() {
+    console.log('The server is running');
+}
+
+function catchErrorAndShutdown(location) {
+    return function (err) {
+        console.log(`location: ${location}`);
+        console.error(err);
+    }
+}
+
+/** Action to perform when application shutdown is called  **/
+process.on("SIGINT", () => shutdown);
+
+/** Listens to uncaught exceptions **/
+process.on('uncaughtException', catchErrorAndShutdown('process.on(uncaughtException)'));
+
+async function shutdown() {
+    await closeDatabaseConnection();
+    await stopServer();
+}
+
+async function closeDatabaseConnection() {
+    // actions to perform
+    return true;
+}
+
+const stopServer = () => {
+    if (runningServer) runningServer.close();
+    process.exit(0);
+};
