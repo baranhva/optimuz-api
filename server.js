@@ -18,6 +18,9 @@ diContainer.register('Sequelize', Sequelize);
 diContainer.register('DataTypes', DataTypes);
 diContainer.factory('db', require('./db'));
 
+const { Router } = require('express');
+diContainer.register('Router', Router);
+
 /**
  * Models
  */
@@ -40,6 +43,12 @@ diContainer.factory('PatientInteractor', require('./interactor/patient-interacto
  * Controller
  */
 diContainer.factory('PatientController', require('./controller/patient-controller'));
+
+
+/**
+ * Routes
+ */
+diContainer.factory('PatientRoutes', require('./routes/patient-routes'));
 
 
 
@@ -70,6 +79,14 @@ server.disable('x-powered-by');
 
 // compress all responses
 server.use(compression());
+
+
+/**
+ * Register Routes to Server
+ */
+server.use('/patient', diContainer.get('PatientRoutes'));
+
+
 
 /**
  * Setting Up Of The Server
