@@ -3,6 +3,9 @@
 const Promise = require('bluebird');
 global.Promise = Promise;
 
+// loads environment variables from .env file into process.env
+require('dotenv').config();
+
 const config = require('./config');
 
 const diContainer = require('./helper/di-container')();
