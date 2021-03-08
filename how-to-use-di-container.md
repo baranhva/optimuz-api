@@ -1,4 +1,6 @@
-## How do I write a module for it to work with the Di-Container.
+# How do I write a module for it to work with the Di-Container.
+
+### Create module
 
 When creating a new module you need to work in the following way by exporting a function from **module.exports**.
 Inside this function you need to have a variable where all the public functions are set to which will be returned at the end of the function.
@@ -13,7 +15,6 @@ module.exports = function() {
     return svc;
 };
 ```
-<br>
 
 ### Add dependency
 
@@ -29,7 +30,6 @@ module.exports = function(MedicalPassport) {
     return svc;
 };
 ```
-<br>
 
 ### Add public function
 
@@ -83,4 +83,35 @@ module.exports = function(MedicalPassport) {
 
 <br>
 
-## How to register a module
+# Adding Modules to Di-Container
+
+### How to register a module
+
+When having created a new module and you want to add the module to the DiContainer you need to load it in the server.js file.
+If we would add the MedicalPassportService to the application we first need to find the place where the services are loaded as we group them by there type.
+We then need to register it as a factory as the module needs to also be injected with dependencies.
+So we would add the following code:
+
+```Javascript
+diContainer.registerFactory('MedicalPassportService', require('./service/medical-passport-service'));
+```
+
+The first part contains the name of the service, the second is the actual module being loaded in.
+We use require to load the module.
+<br>
+
+We could also have loaded the module and then provide that loaded value like below.
+But this is unnecessary boilerplate code and is made redundant when directly doing the import in the parameter.
+
+```Javascript
+const MedicalPassportService = require('./service/medical-passport-service');
+diContainer.registerFactory('MedicalPassportService', MedicalPassportService);
+```
+
+### How to register 3rd party module
+
+When you want to register a module from 3rd party like for instance express you can add it using the *registerDependency* function.
+
+```Javascript
+diContainer.registerDependency('express', require('express'));
+```
