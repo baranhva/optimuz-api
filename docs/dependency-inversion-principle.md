@@ -24,7 +24,7 @@ module.exports = function () {
     let factories = {};
     let svc = {};
 
-    svc.factory = function (name, factory) {
+    svc.registerFactory = function (name, factory) {
         factories[name] = factory;
     };
 
@@ -121,16 +121,16 @@ In the file server.js we set everything up and here we will also register all th
 
 The Di-Container has two ways, the first is the register function.
 This is used for adding a dependency that has a fixed value. This can be a single value or a module that is already setup and does not need to be initialised.
-The other way is with the factory function which adds the dependency and when loaded needs to be initialised if not done yet.
+The other way is with the registerFactory function which adds the dependency and when loaded needs to be initialised if not done yet.
 
 
-Below you can see how we load the diContainer, add third party modules by using register() and adding our own modules using the factory.
+Below you can see how we load the diContainer, add third party modules by using register() and adding our own modules using the **registerFactory**.
 We then load the PatientRoutes dependency by using the diContainers.get() function which will start the process of loading all the dependencies for each module that is being used.
 
 
 ````Javascript
 
-const diContainer = require('./helper/di-container')();
+const diContainer = require('./di-container')();
 
 diContainer.register('bcryptjs', require('bcryptjs'));
 diContainer.register('jwt', require('jsonwebtoken'));
@@ -143,31 +143,31 @@ diContainer.register('Router', Router);
 /**
  * Models
  */
-diContainer.factory('User', require('./models/user-model'));
+diContainer.registerFactory('User', require('./user-model'));
 
 /**
  * Services
  */
-diContainer.factory('HashService', require('./service/hash-service'));
-diContainer.factory('TokenService', require('./service/token-service'));
-diContainer.factory('UserService', require('./service/user-service'));
+diContainer.registerFactory('HashService', require('./hash-service'));
+diContainer.registerFactory('TokenService', require('./token-service'));
+diContainer.registerFactory('UserService', require('./user-service'));
 
 /**
  * Interactor
  */
-diContainer.factory('PatientInteractor', require('./interactor/patient-interactor'));
+diContainer.registerFactory('PatientInteractor', require('./patient-interactor'));
 
 
 /**
  * Controller
  */
-diContainer.factory('PatientController', require('./controller/patient-controller'));
+diContainer.registerFactory('PatientController', require('./patient-controller'));
 
 
 /**
  * Routes
  */
-diContainer.factory('PatientRoutes', require('./routes/patient-routes'));
+diContainer.registerFactory('PatientRoutes', require('./patient-routes'));
 
 
 
@@ -184,6 +184,12 @@ const server = express();
 server.use('/patient', diContainer.get('PatientRoutes'));
 
 ````
+
+
+## How do I write a module for it to work with the Di-Container.
+
+When creating a new module tbat you need to work in the following way
+
 
 
 * Explain in text how to use the Di mechanism *
