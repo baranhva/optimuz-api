@@ -8,11 +8,11 @@ module.exports = function () {
     let factories = {};
     let svc = {};
 
-    svc.factory = function (name, factory) {
+    svc.registerFactory = function (name, factory) {
         factories[name] = factory;
     };
 
-    svc.register = function (name, dep) {
+    svc.registerDependency = function (name, dep) {
         dependencies[name] = dep;
     };
 

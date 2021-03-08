@@ -10,48 +10,48 @@ const config = require('./config');
 
 const diContainer = require('./helper/di-container')();
 
-diContainer.register('bcryptjs', require('bcryptjs'));
-diContainer.register('jwt', require('jsonwebtoken'));
+diContainer.registerDependency('bcryptjs', require('bcryptjs'));
+diContainer.registerDependency('jwt', require('jsonwebtoken'));
 
-diContainer.register('config', config);
+diContainer.registerDependency('config', config);
 
 const { Sequelize, DataTypes } = require('sequelize');
 
-diContainer.register('Sequelize', Sequelize);
-diContainer.register('DataTypes', DataTypes);
-diContainer.factory('db', require('./db'));
+diContainer.registerDependency('Sequelize', Sequelize);
+diContainer.registerDependency('DataTypes', DataTypes);
+diContainer.registerFactory('db', require('./db'));
 
 const { Router } = require('express');
-diContainer.register('Router', Router);
+diContainer.registerDependency('Router', Router);
 
 /**
  * Models
  */
-diContainer.factory('User', require('./models/user-model'));
+diContainer.registerFactory('User', require('./models/user-model'));
 
 /**
  * Services
  */
-diContainer.factory('HashService', require('./service/hash-service'));
-diContainer.factory('TokenService', require('./service/token-service'));
-diContainer.factory('UserService', require('./service/user-service'));
+diContainer.registerFactory('HashService', require('./service/hash-service'));
+diContainer.registerFactory('TokenService', require('./service/token-service'));
+diContainer.registerFactory('UserService', require('./service/user-service'));
 
 /**
  * Interactor
  */
-diContainer.factory('PatientInteractor', require('./interactor/patient-interactor'));
+diContainer.registerFactory('PatientInteractor', require('./interactor/patient-interactor'));
 
 
 /**
  * Controller
  */
-diContainer.factory('PatientController', require('./controller/patient-controller'));
+diContainer.registerFactory('PatientController', require('./controller/patient-controller'));
 
 
 /**
  * Routes
  */
-diContainer.factory('PatientRoutes', require('./routes/patient-routes'));
+diContainer.registerFactory('PatientRoutes', require('./routes/patient-routes'));
 
 
 
@@ -151,3 +151,8 @@ const stopServer = () => {
     if (runningServer) runningServer.close();
     process.exit(0);
 };
+
+function hiddenPrivateFunction() {
+    /* code */
+    /* code */
+}
