@@ -90,24 +90,34 @@ server.use(compression());
 server.use('/patient', diContainer.get('PatientRoutes'));
 
 
-
 /**
  * Setting Up Of The Server
  */
-let runningServer;
+let runningServer, db;
+
 
 runServer()
+    .then(testDatabaseConnection)
     .then(onServerRunning)
     .catch(catchErrorAndShutdown("startup"));
 
 
 function runServer() {
-    return new Promise(resolve => runningServer = server.listen(process.env.PORT || 3000, resolve));
+    return new Promise(resolve => runningServer = server.listen(process.env.PORT, resolve));
 }
 
+async function testDatabaseConnection() {
+    try {
+        db = diContainer.get('db');
+        await db.authenticate();
+        console.log('* Connection to database has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+}
 
  function onServerRunning() {
-    console.log('The server is running');
+    console.log(`* The server is running on port: ${process.env.PORT}`);
 }
 
 function catchErrorAndShutdown(location) {
@@ -118,7 +128,7 @@ function catchErrorAndShutdown(location) {
 }
 
 /** Action to perform when application shutdown is called  **/
-process.on("SIGINT", () => shutdown);
+process.on("SIGINT", () => shutdown());
 
 /** Listens to uncaught exceptions **/
 process.on('uncaughtException', catchErrorAndShutdown('process.on(uncaughtException)'));
@@ -129,8 +139,12 @@ async function shutdown() {
 }
 
 async function closeDatabaseConnection() {
-    // actions to perform
-    return true;
+    try {
+        await db.close();
+        console.log('* Connection to database is closed.');
+    } catch(error) {
+        console.error('* Something whent wrong when closing connection to database:', error);
+    }
 }
 
 const stopServer = () => {
