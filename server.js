@@ -151,8 +151,3 @@ const stopServer = () => {
     if (runningServer) runningServer.close();
     process.exit(0);
 };
-
-function hiddenPrivateFunction() {
-    /* code */
-    /* code */
-}
