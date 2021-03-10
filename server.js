@@ -39,18 +39,21 @@ diContainer.registerFactory('UserService', require('./service/user-service'));
 /**
  * Interactor
  */
+diContainer.registerFactory('AuthInteractor', require('./interactor/auth-interactor'));
 diContainer.registerFactory('PatientInteractor', require('./interactor/patient-interactor'));
 
 
 /**
  * Controller
  */
+diContainer.registerFactory('AuthController', require('./controller/auth-controller'));
 diContainer.registerFactory('PatientController', require('./controller/patient-controller'));
 
 
 /**
  * Routes
  */
+diContainer.registerFactory('AuthRoutes', require('./routes/auth-routes'));
 diContainer.registerFactory('PatientRoutes', require('./routes/patient-routes'));
 
 
@@ -87,6 +90,7 @@ server.use(compression());
 /**
  * Register Routes to Server
  */
+server.use('/auth', diContainer.get('AuthRoutes'));
 server.use('/patient', diContainer.get('PatientRoutes'));
 
 
@@ -143,7 +147,7 @@ async function closeDatabaseConnection() {
         await db.close();
         console.log('* Connection to database is closed.');
     } catch(error) {
-        console.error('* Something whent wrong when closing connection to database:', error);
+        console.error('* Something went wrong when closing connection to database:', error);
     }
 }
 
