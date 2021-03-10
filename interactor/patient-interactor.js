@@ -6,7 +6,7 @@ module.exports = function(config, UserService) {
 
     interactor.createPatientAccount = async function(email, password, firstName, lastName) {
         const type = config.user.types.patient;
-        const user = await UserService.createUser(email, password, firstName, lastName, type);
+        return await UserService.createUser(email, password, firstName, lastName, type);
     };
 
     return interactor;

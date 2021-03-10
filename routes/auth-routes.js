@@ -4,7 +4,7 @@ module.exports = function(Router, AuthController) {
 
     const router = Router();
 
-    router.get('/login', AuthController.login);
+    router.post('/login', AuthController.login);
 
     return router;
 };

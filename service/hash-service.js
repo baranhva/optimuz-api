@@ -8,7 +8,7 @@ module.exports = function(bcryptjs) {
 
     svc.hash = async function(value) {
         const salt = await bcryptjs.genSalt(SALT_NUMBER);
-        return await salt.hash(value, salt);
+        return await bcryptjs.hash(value, salt);
     };
 
     svc.compare = async function(givenValue, hashedValue) {

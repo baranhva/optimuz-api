@@ -15,6 +15,7 @@ module.exports = function(PatientInteractor) {
             await PatientInteractor.createPatientAccount(email, password, firstName, lastName);
             res.json({ successful: true });
         } catch (err) {
+            console.error(err);
             res.sendStatus(500);
         }
     };

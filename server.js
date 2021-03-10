@@ -102,6 +102,7 @@ let runningServer, db;
 
 runServer()
     .then(testDatabaseConnection)
+    .then(syncDatabase)
     .then(onServerRunning)
     .catch(catchErrorAndShutdown("startup"));
 
@@ -118,6 +119,12 @@ async function testDatabaseConnection() {
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }
+}
+
+async function syncDatabase() {
+    console.log('* Start with syncing database.');
+    await db.sync();
+    console.log('* Syncing database is done.');
 }
 
  function onServerRunning() {
