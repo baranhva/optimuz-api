@@ -1,0 +1,5 @@
+# register new patient account
+curl -X POST -H "Content-Type: application/json" --data '{"firstName": "Chris", "lastName": "Hoyt", "email": "cpl@hva", "password": "test"}' http://localhost:3000/patient/register
+
+# login with created account
+curl -X POST -H "Content-Type: application/json" --data '{"email": "cpl@hva", "password": "test"}' http://localhost:3000/auth/login
