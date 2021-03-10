@@ -4,13 +4,12 @@ module.exports = function(config, jwt) {
 
     let svc = {};
 
-    svc.sign = function(payload) {
-        return new Promise((resolve, reject) => {
-            jwt.sign(payload, config.jwt.secretKey, config.jwt.options, (err, token) => {
-                if (err) reject(err);
-                else resolve(token);
-            });
-        });
+    svc.sign = async function(payload) {
+        try {
+            return await jwt.sign(payload, config.jwt.secretKey, config.jwt.options);
+        } catch (err) {
+            throw err;
+        }
     };
 
     svc.verify = function(token) {

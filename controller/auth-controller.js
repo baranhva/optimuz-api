@@ -10,7 +10,7 @@ module.exports = function(AuthInteractor) {
         }
 
         try {
-            const token = AuthInteractor.getSession(req.body.email, req.body.password);
+            const token = await AuthInteractor.getSession(req.body.email, req.body.password);
             res.json({ token });
         } catch(err) {
             if (err === AuthInteractor.error.incorrectPassword) {

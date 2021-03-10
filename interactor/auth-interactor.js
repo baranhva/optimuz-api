@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 module.exports = function(UserService, HashService, TokenService) {
 
     let svc = {};
@@ -10,9 +12,9 @@ module.exports = function(UserService, HashService, TokenService) {
 
     svc.getSession = async function(email, password) {
         const user = await UserService.findUserByEmail(email);
-        const hashedPassword = _.get(user, password);
+        const hashedPassword = _.get(user, 'password');
         await compareGivenPasswordToHashedPassword(password, hashedPassword);
-        const tokenPayload = _.get(user, ['id', 'email', 'type']);
+        const tokenPayload = _.pick(user.toJSON(), ['id', 'email', 'type']);
         return TokenService.sign(tokenPayload);
     }
 
