@@ -96,12 +96,11 @@ module.exports = function(PatientInteractor) {
 
 ```Javascript
 module.exports = function(bcryptjs, SALT_NUMBER) {
-
     let svc = {};
 
     svc.hash = async function(value) {
         const salt = await bcryptjs.genSalt(SALT_NUMBER);
-        return await salt.hash(value, salt);
+        return await bcryptjs.hash(value, salt);
     };
 
     svc.compare = async function(givenValue, hashedValue) {
