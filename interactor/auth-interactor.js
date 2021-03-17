@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-module.exports = function(UserService, HashService, TokenService) {
+module.exports = function(UserService, HashService, TokenService, RedisClient) {
 
     let svc = {};
 
@@ -14,8 +14,8 @@ module.exports = function(UserService, HashService, TokenService) {
         const user = await UserService.findUserByEmail(email);
         const hashedPassword = _.get(user, 'password');
         await compareGivenPasswordToHashedPassword(password, hashedPassword);
-        const tokenPayload = _.pick(user.toJSON(), ['id', 'email', 'type']);
-        return TokenService.sign(tokenPayload);
+        const payload = _.pick(user.toJSON(), ['id', 'email', 'type']);
+        return await getTokensAndStoreRefreshToken(user.id, payload);
     }
 
     async function compareGivenPasswordToHashedPassword(givenPassword, hashedPassword) {
@@ -25,6 +25,12 @@ module.exports = function(UserService, HashService, TokenService) {
         }
 
         return true;
+    }
+
+    async function getTokensAndStoreRefreshToken(userId, payload) {
+        const {accessToken, refreshToken} = await TokenService.sign(userId, payload);
+        await RedisClient.setAsync(userId, refreshToken);
+        return {accessToken, refreshToken};
     }
 
     return svc;
