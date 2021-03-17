@@ -7,7 +7,9 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
     let svc = {};
 
     svc.error = {
-        incorrectPassword: new Error(`The password that was given is incorrect`)
+        incorrectPassword: new Error(`The password that was given is incorrect`),
+        noRefreshTokenStored: new Error(`There is no token stored`),
+        oldRefreshToken: new Error(`Old token. Not valid anymore`),
     };
 
     svc.getSession = async function(email, password) {
@@ -15,7 +17,7 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
         const hashedPassword = _.get(user, 'password');
         await compareGivenPasswordToHashedPassword(password, hashedPassword);
         const payload = _.pick(user.toJSON(), ['id', 'email', 'type']);
-        return await getTokensAndStoreRefreshToken(user.id, payload);
+        return await getTokensAndStoreRefreshToken(user.id.toString(), payload);
     }
 
     async function compareGivenPasswordToHashedPassword(givenPassword, hashedPassword) {
@@ -32,6 +34,19 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
         await RedisClient.setAsync(userId, refreshToken);
         return {accessToken, refreshToken};
     }
+
+    svc.reIssueTokens = async function(refreshToken){
+        const payload = await TokenService.verify(refreshToken);
+        const userId = payload.aud;
+        const storedToken = await RedisClient.getAsync(userId);
+
+        if (!storedToken)
+            throw svc.error.noRefreshTokenStored;
+        if (storedToken !== refreshToken)
+            throw svc.error.oldRefreshToken;
+
+        return await getTokensAndStoreRefreshToken(userId, payload);
+    };
 
     return svc;
 };
