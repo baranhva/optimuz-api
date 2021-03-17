@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    restart: on-failure
+    environment:
+      DB_SCHEMA: optimuz
+      DB_USERNAME: root
+      DB_PASSWORD: q94SgYhF5fiq48mzMCAs4Y#6G7q#c7P&@hTEi9y&x4KqGBsL
+      MYSQL_PORT: 3306
+      DATABASE_HOST: db
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_DATABASE: optimuz
+      MYSQL_ROOT_PASSWORD: q94SgYhF5fiq48mzMCAs4Yc6G7qsc7Px3hTEi9ygx4KqGBsL
+      MYSQL_USER: user
+      MYSQL_PASSWORD: q94SgYhF5fiq48mzMCAs4Yc6G7qsc7Px3hTEi9ygx4KqGBsL
+      DATABASE_HOST: db
+    restart: always
+    volumes:
+      - optimuz-db:/var/lib/mysql
+  redis:
+    image: redis
+    container_name: cache
+    expose:
+      - 6379
+volumes:
+  optimuz-db:
