@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const config = require('./config');
 
-const diContainer = require('./helper/di-container')();
+const diContainer = require('./util/di-container')();
 
 diContainer.registerDependency('bcryptjs', require('bcryptjs'));
 diContainer.registerDependency('jwt', require('jsonwebtoken'));
