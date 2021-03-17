@@ -19,7 +19,10 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 diContainer.registerDependency('Sequelize', Sequelize);
 diContainer.registerDependency('DataTypes', DataTypes);
-diContainer.registerFactory('db', require('./db'));
+diContainer.registerFactory('db', require('./util/db'));
+
+diContainer.registerDependency('redis', require('redis'));
+diContainer.registerFactory('RedisClient', require('./util/redis'));
 
 const { Router } = require('express');
 diContainer.registerDependency('Router', Router);
