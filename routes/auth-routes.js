@@ -11,7 +11,7 @@ module.exports = function(Router, AuthController) {
 
     router.post('/login', AuthController.login);
 
-    router.post('/refresh-token', AuthController.getNewAccessTokenUsingRefreshToken);
+    router.post('/refresh', AuthController.getNewAccessTokenUsingRefreshToken);
 
     return router;
 };

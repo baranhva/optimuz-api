@@ -12,7 +12,7 @@ module.exports = function(config, jwt) {
     }
 
     svc.signAccessToken = async function(userId, payload) {
-        return signToken(userId, payload, config.jwt.secretAccessTokenKey, '1h');
+        return signToken(userId, payload, config.jwt.secretAccessTokenKey, '15m');
     }
 
     svc.signRefreshToken = async function(userId, payload) {
