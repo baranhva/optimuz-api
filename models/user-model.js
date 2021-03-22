@@ -5,7 +5,8 @@ module.exports = function(config, db, DataTypes) {
     const User = db.define('User', {
         email: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         password: {
             type: DataTypes.STRING,
