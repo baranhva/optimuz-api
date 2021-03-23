@@ -31,5 +31,12 @@ module.exports = function (User, HashService) {
         return await User.create({email, password, firstName, lastName, type}, clean({transaction}));
     };
 
+    svc.getAllUsers = async function() {
+        return await User.findAll({
+            attributes: {exclude: ['password']},
+            order: [['id', 'DESC']]
+        });
+    };
+
     return svc;
 };

@@ -30,34 +30,34 @@ diContainer.registerDependency('Router', Router);
 /**
  * Models
  */
-diContainer.registerFactory('User', require('./models/user-model'));
+diContainer.registerFactory('User', require('./models/user.model'));
 
 /**
  * Services
  */
-diContainer.registerFactory('HashService', require('./service/hash-service'));
-diContainer.registerFactory('TokenService', require('./service/token-service'));
-diContainer.registerFactory('UserService', require('./service/user-service'));
+diContainer.registerFactory('HashService', require('./service/hash.service'));
+diContainer.registerFactory('TokenService', require('./service/token.service'));
+diContainer.registerFactory('UserService', require('./service/user.service'));
 
 /**
  * Interactor
  */
-diContainer.registerFactory('AuthInteractor', require('./interactor/auth-interactor'));
-diContainer.registerFactory('PatientInteractor', require('./interactor/patient-interactor'));
+diContainer.registerFactory('AuthInteractor', require('./interactor/auth.interactor'));
+diContainer.registerFactory('PatientInteractor', require('./interactor/patient.interactor'));
 
 
 /**
  * Controller
  */
-diContainer.registerFactory('AuthController', require('./controller/auth-controller'));
-diContainer.registerFactory('PatientController', require('./controller/patient-controller'));
+diContainer.registerFactory('AuthController', require('./controller/auth.controller'));
+diContainer.registerFactory('PatientController', require('./controller/patient.controller'));
 
 
 /**
  * Routes
  */
-diContainer.registerFactory('AuthRoutes', require('./routes/auth-routes'));
-diContainer.registerFactory('PatientRoutes', require('./routes/patient-routes'));
+diContainer.registerFactory('AuthRoutes', require('./routes/auth.routes'));
+diContainer.registerFactory('PatientRoutes', require('./routes/patient.routes'));
 
 
 
