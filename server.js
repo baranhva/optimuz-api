@@ -107,6 +107,7 @@ runServer()
     .then(testDatabaseConnection)
     .then(syncDatabase)
     .then(onServerRunning)
+    // .then(createAdminAndCaretakerAccount)
     .catch(catchErrorAndShutdown("startup"));
 
 
@@ -165,3 +166,17 @@ const stopServer = () => {
     if (runningServer) runningServer.close();
     process.exit(0);
 };
+
+/**
+ * This is for creating a Admin & Caretaker account
+ *
+ */
+async function createAdminAndCaretakerAccount() {
+    const UserService = diContainer.get('UserService');
+
+    console.log(`Create admin`)
+    await UserService.createUser("admin@hva.nl", "password", "Admin", "lastName", config.user.types.admin);
+
+    console.log(`Create caretaker`)
+    await UserService.createUser("caretaker@hva.nl", "password", "Admin", "lastName", config.user.types.caretaker);
+}
