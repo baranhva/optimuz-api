@@ -13,15 +13,12 @@ module.exports = {
     user: {
       types: {
           admin: "ADMIN",
-          caretaker: "CARE_TAKER",
+          caretaker: "CARETAKER",
           patient: "PATIENT"
       }
     },
     jwt: {
         secretAccessTokenKey: 'J4dB^EJfFgCM?GF2ATNAEH@mvFm%EzHn5dn3Hk?g#^7Pm&E',
-        secretRefreshTokenKey: 'bNT3Q4d8TpqPH@FFHxqT#c4j@Yps8HXeN!ig7!JHYnh?&58',
-        options: {
-            expiresIn: '24h'
-        }
+        secretRefreshTokenKey: 'bNT3Q4d8TpqPH@FFHxqT#c4j@Yps8HXeN!ig7!JHYnh?&58'
     }
 }
