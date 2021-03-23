@@ -4,11 +4,6 @@ module.exports = function(PatientInteractor) {
 
     let ctrl = {};
 
-    ctrl.performTest = async function(req, res) {
-        console.log(`* performTest is called *`);
-        res.json({ msg: "The returned result" });
-    }
-
     ctrl.createPatientAccount = async function(req, res) {
         try {
             const {email, password, firstName, lastName} = req.body;
