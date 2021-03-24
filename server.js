@@ -27,6 +27,12 @@ diContainer.registerFactory('RedisClient', require('./util/redis'));
 const { Router } = require('express');
 diContainer.registerDependency('Router', Router);
 
+
+/**
+ * Middleware
+ */
+diContainer.registerFactory('AuthMiddleware', require('./middleware/auth.middleware'));
+
 /**
  * Models
  */
@@ -93,6 +99,8 @@ server.disable('x-powered-by');
 server.use(compression());
 
 
+const AuthMiddleware = diContainer.get('AuthMiddleware');
+
 /**
  * Register Routes to Server
  */
@@ -100,7 +108,11 @@ server.use('/auth', diContainer.get('AuthRoutes'));
 
 server.use('/patient', diContainer.get('PatientRoutes'));
 
-server.use('/admin', diContainer.get('AdminRoutes'));
+server.use('/admin',
+    AuthMiddleware.authenticationMiddleware,
+    AuthMiddleware.userTypeAccessMiddleware([config.user.types.admin]),
+    diContainer.get('AdminRoutes')
+);
 
 
 /**
