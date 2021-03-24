@@ -18,8 +18,28 @@ module.exports = function(AuthInteractor) {
         }
     }
 
+    function userTypeAccessMiddleware(types) {
+        if (!types || types.constructor !== Array || types.length === 0) {
+            throw new Error(`The provided types: ${types} are incorrect`);
+        }
+
+        return async function(req, res, next) {
+            if (!!req.auth.type && isNeededUserType(types, req.auth.type)) {
+                next();
+            } else {
+                console.log(`The user with type: ${req.auth.type} did not have a correct type: ${types}`);
+                res.sendStatus(403);
+            }
+        }
+    }
+
+    function isNeededUserType(types, userType) {
+        return !!types.find(type => type === userType);
+    }
+
 
     return {
-        authenticationMiddleware
+        authenticationMiddleware,
+        userTypeAccessMiddleware
     };
 };
