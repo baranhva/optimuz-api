@@ -12,6 +12,14 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
         oldRefreshToken: new Error(`Old token. Not valid anymore`),
     };
 
+    svc.verify = function(token) {
+        return TokenService.verify(token);
+    };
+
+    svc.decodePayload = function(token) {
+        return TokenService.decodePayload(token);
+    }
+
     svc.getSession = async function(email, password) {
         const user = await UserService.findUserByEmail(email);
         const hashedPassword = _.get(user, 'password');

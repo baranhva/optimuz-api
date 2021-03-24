@@ -1,5 +1,7 @@
 "use strict";
 
+const _ = require('lodash');
+
 module.exports = function(config, jwt) {
 
     let svc = {};
@@ -34,11 +36,16 @@ module.exports = function(config, jwt) {
     svc.verify = function(token) {
         return new Promise((resolve, reject) => {
             jwt.verify(token, config.jwt.secretKey, (err, decoded) => {
-                if (err) reject(err);
-                else resolve(decoded);
+                if (err || !decoded) reject(err | new Error(`No decoded value returned`));
+                else resolve(true);
             });
         });
     };
+
+    svc.decodePayload = function(token) {
+        const decoded = jwt.decode(token, {complete: true});
+        return _.get(decoded, 'payload');
+    }
 
     return svc;
 };
