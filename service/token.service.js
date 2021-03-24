@@ -33,14 +33,22 @@ module.exports = function(config, jwt) {
         }
     }
 
-    svc.verify = function(token) {
+    svc.verifyAccessToken = function(token) {
+        return verify(token, config.jwt.secretAccessTokenKey);
+    };
+
+    svc.verifyRefreshToken = function(token) {
+        return verify(token, config.jwt.secretRefreshTokenKey);
+    };
+
+    function verify(token, secretKey) {
         return new Promise((resolve, reject) => {
-            jwt.verify(token, config.jwt.secretKey, (err) => {
+            jwt.verify(token, secretKey, (err) => {
                 if (err) reject(err);
                 else resolve(true);
             });
         });
-    };
+    }
 
     svc.decodePayload = function(token) {
         const decoded = jwt.decode(token, {complete: true});

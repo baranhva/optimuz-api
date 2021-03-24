@@ -13,7 +13,7 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
     };
 
     svc.verify = function(token) {
-        return TokenService.verify(token);
+        return TokenService.verifyAccessToken(token);
     };
 
     svc.decodePayload = function(token) {
@@ -44,7 +44,7 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
     }
 
     svc.reIssueTokens = async function(refreshToken){
-        const payload = await TokenService.verify(refreshToken);
+        const payload = await TokenService.verifyRefreshToken(refreshToken);
         const userId = payload.aud;
         const storedToken = await RedisClient.getAsync(userId);
 
