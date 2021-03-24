@@ -9,12 +9,22 @@ module.exports = function(AuthInteractor) {
         }
 
         try {
-            await AuthInteractor.verify(req.headers.authorization)
-            req.auth = AuthInteractor.decodePayload(req.headers.authorization);
+            const token = extractTokenFromAuthorizationHeader(req.headers.authorization);
+            console.log(`token: ${token}`)
+            await AuthInteractor.verify(token);
+            req.auth = AuthInteractor.decodePayload(token);
             next();
         } catch (err) {
             console.log(`Error happened when verifying & decoding the payload`)
             return res.sendStatus(401);
+        }
+    }
+
+    function extractTokenFromAuthorizationHeader(authHeader) {
+        if (authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7, authHeader.length);
+        } else {
+            throw new Error(`The authorization header does not start with 'Bearer'`)
         }
     }
 

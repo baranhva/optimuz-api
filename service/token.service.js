@@ -35,8 +35,8 @@ module.exports = function(config, jwt) {
 
     svc.verify = function(token) {
         return new Promise((resolve, reject) => {
-            jwt.verify(token, config.jwt.secretKey, (err, decoded) => {
-                if (err || !decoded) reject(err | new Error(`No decoded value returned`));
+            jwt.verify(token, config.jwt.secretKey, (err) => {
+                if (err) reject(err);
                 else resolve(true);
             });
         });
