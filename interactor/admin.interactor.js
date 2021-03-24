@@ -8,5 +8,5 @@ module.exports = function(UserService) {
         return UserService.getAllUsers();
     };
 
-    return ctrl;
+    return interactor;
 };
