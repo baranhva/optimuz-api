@@ -7,7 +7,7 @@ module.exports = function(db, Medicine, UserMedicine) {
         try {
             const transaction = await db.transaction();
             const medicine = await createMedicine(name, amountOfUnit, unit, amountPerPackage, transaction);
-            await linkMedicineToUser(medicine.id.toString(), userId, transaction);
+            await linkMedicineToUser(userId, medicine.id.toString(), transaction);
             await transaction.commit();
             return medicine.toJSON();
         } catch (err) {
@@ -22,10 +22,10 @@ module.exports = function(db, Medicine, UserMedicine) {
         }, {transaction});
     }
 
-    async function linkMedicineToUser(medicineId, userId, transaction) {
+    async function linkMedicineToUser(userId, medicineId, transaction) {
         return UserMedicine.create({
-            medicine: medicineId,
-            user: userId
+            user: userId,
+            medicine: medicineId
         }, { transaction: transaction });
     }
 
