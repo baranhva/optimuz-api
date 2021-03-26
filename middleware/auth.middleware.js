@@ -13,6 +13,7 @@ module.exports = function(AuthInteractor) {
             req.auth = AuthInteractor.decodePayload(token);
             next();
         } catch (err) {
+            console.error(err);
             console.log(`Error happened when verifying & decoding the payload`)
             return res.sendStatus(401);
         }
