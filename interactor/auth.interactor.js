@@ -43,6 +43,14 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
         return {accessToken, refreshToken};
     }
 
+    svc.extractTokenFromAuthorizationHeader = function(authHeader) {
+        if (authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7, authHeader.length);
+        } else {
+            throw new Error(`The authorization header does not start with 'Bearer'`)
+        }
+    };
+
     svc.reIssueTokens = async function(refreshToken){
         const payload = await TokenService.verifyRefreshToken(refreshToken);
         const userId = payload.aud;
