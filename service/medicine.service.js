@@ -19,7 +19,7 @@ module.exports = function(db, Medicine, UserMedicine) {
     async function createMedicine(name, amountOfUnit, unit, amountPerPackage, transaction) {
         return Medicine.create({
             name: name, amountOfUnit: amountOfUnit, unit: unit, amountPerPackage: amountPerPackage
-        }, {transaction});
+        }, { transaction: transaction });
     }
 
     async function linkMedicineToUser(userId, medicineId, transaction) {

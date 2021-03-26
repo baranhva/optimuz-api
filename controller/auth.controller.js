@@ -32,13 +32,14 @@ module.exports = function(AuthInteractor) {
             const {accessToken, refreshToken} = await AuthInteractor.reIssueTokens(req.body.refreshToken);
             return res.json({ accessToken, refreshToken });
         } catch (err) {
+            console.error(err);
             if (err === AuthInteractor.error.noRefreshTokenStored) {
                 console.error(new Error(`Incorrect password given by ${req.body.email}`));
                 return res.status(403).send(`Given input is incorrect`);
             }
             if (err === AuthInteractor.error.oldRefreshToken) {
                 console.error(new Error(`Token expired!`));
-                return res.status(401).send(`Token expired!`);
+                return res.status(403).send(`Token expired!`);
             } else {
                 console.error(new Error(`Something went wrong`));
                 return res.status(500).send(`Something went wrong`);
