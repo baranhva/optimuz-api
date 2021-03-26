@@ -36,12 +36,15 @@ diContainer.registerFactory('AuthMiddleware', require('./middleware/auth.middlew
 /**
  * Models
  */
+diContainer.registerFactory('Medicine', require('./models/medicine.model'));
 diContainer.registerFactory('User', require('./models/user.model'));
+diContainer.registerFactory('UserMedicine', require('./models/user-medicine.model'));
 
 /**
  * Services
  */
 diContainer.registerFactory('HashService', require('./service/hash.service'));
+diContainer.registerFactory('MedicineService', require('./service/medicine.service'));
 diContainer.registerFactory('TokenService', require('./service/token.service'));
 diContainer.registerFactory('UserService', require('./service/user.service'));
 
