@@ -13,6 +13,7 @@ module.exports = function(AuthInteractor) {
             const {accessToken, refreshToken} = await AuthInteractor.getSession(req.body.email, req.body.password);
             return res.json({ accessToken, refreshToken });
         } catch(err) {
+            console.error(err);
             if (err === AuthInteractor.error.incorrectPassword) {
                 console.error(new Error(`Incorrect password given by ${req.body.email}`));
                 return res.status(403).send(`Given input is incorrect`);

@@ -4,7 +4,7 @@
   "private": true,
   "description": "API server for Optimuz",
   "scripts": {
-    "start": "node server.js",
+    "start": "npm run docker-compose",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker build . --tag optimuz-api",
     "docker-compose": "docker-compose build && docker-compose up"
