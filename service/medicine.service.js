@@ -29,4 +29,7 @@ module.exports = function(db, Medicine, UserMedicine) {
         }, { transaction: transaction });
     }
 
+    return {
+        createMedicineAndLinkToPatient
+    };
 }

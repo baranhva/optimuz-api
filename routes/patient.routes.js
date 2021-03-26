@@ -6,6 +6,7 @@ module.exports = function(Router, PatientController) {
 
     router.post('/register', PatientController.createPatientAccount);
 
+    router.post(`/medicine`, PatientController.createMedicine);
 
     return router;
 };
