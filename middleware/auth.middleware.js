@@ -4,13 +4,11 @@ module.exports = function(AuthInteractor) {
 
     async function authenticationMiddleware(req, res, next) {
         if (!req.headers.authorization) {
-            console.log(`Is missing authorization header`);
             return res.sendStatus(401);
         }
 
         try {
             const token = extractTokenFromAuthorizationHeader(req.headers.authorization);
-            console.log(`token: ${token}`)
             await AuthInteractor.verify(token);
             req.auth = AuthInteractor.decodePayload(token);
             next();
@@ -46,7 +44,6 @@ module.exports = function(AuthInteractor) {
     function isNeededUserType(types, userType) {
         return !!types.find(type => type === userType);
     }
-
 
     return {
         authenticationMiddleware,
