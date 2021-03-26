@@ -128,7 +128,7 @@ runServer()
     .then(testDatabaseConnection)
     .then(syncDatabase)
     .then(onServerRunning)
-    // .then(createAdminAndCaretakerAccount)
+    // .then(createAccountForEachDifferentUserType)
     .catch(catchErrorAndShutdown("startup"));
 
 
@@ -192,7 +192,7 @@ const stopServer = () => {
  * This is for creating a Admin & Caretaker account
  *
  */
-async function createAdminAndCaretakerAccount() {
+async function createAccountForEachDifferentUserType() {
     const UserService = diContainer.get('UserService');
 
     console.log(`Create admin`)
@@ -200,4 +200,7 @@ async function createAdminAndCaretakerAccount() {
 
     console.log(`Create caretaker`)
     await UserService.createUser("caretaker@hva.nl", "password", "Admin", "lastName", config.user.types.caretaker);
+
+    console.log(`Create patient`)
+    await UserService.createUser("patient@hva.nl", "password", "Patient", "lastName", config.user.types.patient);
 }
