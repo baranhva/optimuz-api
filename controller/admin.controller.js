@@ -7,7 +7,7 @@ module.exports = function(AdminInteractor) {
     ctrl.getAllUsers = async function(req, res) {
         try {
             const users = await AdminInteractor.getAllUsers();
-            res.json({ users });
+            res.json(users);
         } catch (err) {
             console.error(err);
             res.sendStatus(500);

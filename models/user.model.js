@@ -24,8 +24,6 @@ module.exports = function(config, db, DataTypes) {
             type: DataTypes.ENUM([config.user.types.admin, config.user.types.caretaker, config.user.types.patient]),
             allowNull: false
         }
-    }, {
-        // Other model options go here
     });
 
     return User;
