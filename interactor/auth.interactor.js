@@ -2,6 +2,8 @@
 
 const _ = require('lodash');
 
+const USER_ATTRIBUTES_USED_IN_TOKEN_PAYLOAD = ['id', 'email', 'type'];
+
 module.exports = function(UserService, HashService, TokenService, RedisClient) {
 
     let svc = {};
@@ -24,7 +26,7 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
         const user = await UserService.findUserByEmail(email);
         const hashedPassword = _.get(user, 'password');
         await compareGivenPasswordToHashedPassword(password, hashedPassword);
-        const payload = _.pick(user.toJSON(), ['id', 'email', 'type']);
+        const payload = _.pick(user.toJSON(), USER_ATTRIBUTES_USED_IN_TOKEN_PAYLOAD);
         return await getTokensAndStoreRefreshToken(user.id.toString(), payload);
     }
 
@@ -51,17 +53,19 @@ module.exports = function(UserService, HashService, TokenService, RedisClient) {
         }
     };
 
-    svc.reIssueTokens = async function(refreshToken){
-        const payload = await TokenService.verifyRefreshToken(refreshToken);
+    svc.reIssueTokens = async function(refreshToken) {
+        await TokenService.verifyRefreshToken(refreshToken);
+        const payload = await TokenService.decodePayload(refreshToken);
         const userId = payload.aud;
         const storedToken = await RedisClient.getAsync(userId);
 
         if (!storedToken)
             throw svc.error.noRefreshTokenStored;
+
         if (storedToken !== refreshToken)
             throw svc.error.oldRefreshToken;
 
-        return await getTokensAndStoreRefreshToken(userId, payload);
+        return await getTokensAndStoreRefreshToken(userId, _.pick(payload, USER_ATTRIBUTES_USED_IN_TOKEN_PAYLOAD));
     };
 
     return svc;
