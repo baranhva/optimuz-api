@@ -1,5 +1,3 @@
-"use strict";
-
 const argsList = require('args-list');
 
 module.exports = function () {

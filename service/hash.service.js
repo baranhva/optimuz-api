@@ -1,4 +1,3 @@
-"use strict";
 
 const SALT_NUMBER = 15;
 

@@ -1,4 +1,3 @@
-"use strict";
 
 const {clean} = require("../util/tools");
 

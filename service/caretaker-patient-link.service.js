@@ -1,5 +1,5 @@
-
 const {clean} = require("../util/tools");
+const _ = require('lodash');
 
 module.exports = function(config, CaretakerPatientLink, UserService) {
 

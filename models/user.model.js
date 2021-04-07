@@ -1,8 +1,6 @@
-"use strict";
-
 module.exports = function(config, db, DataTypes) {
 
-    const User = db.define('User', {
+    return db.define('User', {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -25,6 +23,4 @@ module.exports = function(config, db, DataTypes) {
             allowNull: false
         }
     });
-
-    return User;
 }
