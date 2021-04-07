@@ -11,7 +11,7 @@ module.exports = function(config, CaretakerPatientLink, UserService) {
 
     svc.getPatientsLinkedToCaretaker = async function(caretakerId) {
         const caretakerPatientLinks = await CaretakerPatientLink.findAll({where: {caretakerId}});
-        return caretakerPatientLinks.map(item => _.get(item.toJSON(), 'patientId'));
+        return caretakerPatientLinks.map(item => item.patientId.toString());
     };
 
     svc.linkPatientToCaretaker = async function(patientId, caretakerId, transaction = null) {

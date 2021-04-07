@@ -42,7 +42,7 @@ module.exports = function (User, HashService) {
 
     svc.findUsersById = function(userIds) {
         return User.findAll({
-            where: {id: {$contains: userIds}},
+            where: {id: userIds},
             attributes: DEFAULT_ATTRIBUTES,
             order: DEFAULT_ORDER
         });
