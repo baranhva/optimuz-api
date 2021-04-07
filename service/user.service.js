@@ -38,5 +38,10 @@ module.exports = function (User, HashService) {
         });
     };
 
+    svc.isUserType = async function(userId, type) {
+        const result = await User.findOne({where: {id: userId, type: type}});
+        return !!result;
+    };
+
     return svc;
 };

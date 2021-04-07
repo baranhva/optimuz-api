@@ -36,6 +36,7 @@ diContainer.registerFactory('AuthMiddleware', require('./middleware/auth.middlew
 /**
  * Models
  */
+diContainer.registerFactory('CaretakerPatientLink', require('./models/caretaker-patient-link.model'));
 diContainer.registerFactory('Medicine', require('./models/medicine.model'));
 diContainer.registerFactory('User', require('./models/user.model'));
 diContainer.registerFactory('UserMedicine', require('./models/user-medicine.model'));
@@ -43,6 +44,7 @@ diContainer.registerFactory('UserMedicine', require('./models/user-medicine.mode
 /**
  * Services
  */
+diContainer.registerFactory('CaretakerPatientLinkService', require('./service/caretaker-patient-link.service'));
 diContainer.registerFactory('HashService', require('./service/hash.service'));
 diContainer.registerFactory('MedicineService', require('./service/medicine.service'));
 diContainer.registerFactory('TokenService', require('./service/token.service'));
@@ -199,7 +201,7 @@ async function createAccountForEachDifferentUserType() {
     await UserService.createUser("admin@hva.nl", "password", "Admin", "lastName", config.user.types.admin);
 
     console.log(`Create caretaker`)
-    await UserService.createUser("caretaker@hva.nl", "password", "Admin", "lastName", config.user.types.caretaker);
+    await UserService.createUser("caretaker@hva.nl", "password", "Caretaker", "lastName", config.user.types.caretaker);
 
     console.log(`Create patient`)
     await UserService.createUser("patient@hva.nl", "password", "Patient", "lastName", config.user.types.patient);
