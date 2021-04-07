@@ -7,7 +7,8 @@
     "start": "npm run docker-compose",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker build . --tag optimuz-api",
-    "docker-compose": "docker-compose build && docker-compose up"
+    "docker-compose": "docker-compose build && docker-compose up",
+    "docker-compose:restart:api": "docker-compose up --detach --build app"
   },
   "repository": {
     "type": "git",
