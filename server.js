@@ -55,6 +55,7 @@ diContainer.registerFactory('UserService', require('./service/user.service'));
  */
 diContainer.registerFactory('AdminInteractor', require('./interactor/admin.interactor'));
 diContainer.registerFactory('AuthInteractor', require('./interactor/auth.interactor'));
+diContainer.registerFactory('CaretakerInteractor', require('./interactor/caretaker.interactor'));
 diContainer.registerFactory('PatientInteractor', require('./interactor/patient.interactor'));
 
 
@@ -63,6 +64,7 @@ diContainer.registerFactory('PatientInteractor', require('./interactor/patient.i
  */
 diContainer.registerFactory('AdminController', require('./controller/admin.controller'));
 diContainer.registerFactory('AuthController', require('./controller/auth.controller'));
+diContainer.registerFactory('CaretakerController', require('./controller/caretaker.controller'));
 diContainer.registerFactory('PatientController', require('./controller/patient.controller'));
 
 
@@ -71,6 +73,7 @@ diContainer.registerFactory('PatientController', require('./controller/patient.c
  */
 diContainer.registerFactory('AdminRoutes', require('./routes/admin.routes'));
 diContainer.registerFactory('AuthRoutes', require('./routes/auth.routes'));
+diContainer.registerFactory('CaretakerRoutes', require('./routes/caretaker.routes'));
 diContainer.registerFactory('PatientRoutes', require('./routes/patient.routes'));
 
 
@@ -117,6 +120,12 @@ server.use('/admin',
     AuthMiddleware.authenticationMiddleware,
     AuthMiddleware.userTypeAccessMiddleware([config.user.types.admin]),
     diContainer.get('AdminRoutes')
+);
+
+server.use('/caretaker',
+    AuthMiddleware.authenticationMiddleware,
+    AuthMiddleware.userTypeAccessMiddleware([config.user.types.caretaker]),
+    diContainer.get('CaretakerRoutes')
 );
 
 
