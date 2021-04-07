@@ -4,7 +4,8 @@ module.exports = function(Router, CaretakerController) {
 
     const router = Router();
 
-    router.post('/patient', CaretakerController.createPatient);
+    router.get('/patients', CaretakerController.getPatients);
+
 
     return router;
 };

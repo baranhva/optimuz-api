@@ -4,6 +4,9 @@ const {clean} = require("../util/tools");
 
 const _ = require('lodash');
 
+const DEFAULT_ATTRIBUTES = {exclude: ['password']};
+const DEFAULT_ORDER = [['id', 'DESC']];
+
 module.exports = function (User, HashService) {
 
     let svc = {};
@@ -28,14 +31,22 @@ module.exports = function (User, HashService) {
 
     svc.getAllUsers = async function() {
         return await User.findAll({
-            attributes: {exclude: ['password']},
-            order: [['id', 'DESC']]
+            attributes: DEFAULT_ATTRIBUTES,
+            order: DEFAULT_ORDER
         });
     };
 
     svc.isUserType = async function(userId, type, transaction) {
         const result = await User.findOne({where: {id: userId, type: type}, transaction: transaction});
         return !!result;
+    };
+
+    svc.findUsersById = function(userIds) {
+        return User.findAll({
+            where: {id: {$contains: userIds}},
+            attributes: DEFAULT_ATTRIBUTES,
+            order: DEFAULT_ORDER
+        });
     };
 
     return svc;

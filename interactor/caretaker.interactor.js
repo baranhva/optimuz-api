@@ -6,6 +6,11 @@ module.exports = function(config, db, UserService, CaretakerPatientLinkService) 
 
     let interactor = {};
 
+    interactor.getLinkedPatients = async function(caretakerId) {
+        const patients = await CaretakerPatientLinkService.getPatientsLinkedToCaretaker(caretakerId);
+        return await UserService.findUsersById(patients);
+    };
+
     interactor.createPatientAccountAndLinkToCaretaker = async function(caretakerId, email, password, firstName, lastName) {
         const transaction = await db.transaction();
 
@@ -19,7 +24,6 @@ module.exports = function(config, db, UserService, CaretakerPatientLinkService) 
             console.error(error);
             await transaction.rollback();
         }
-
     };
 
     return interactor;
