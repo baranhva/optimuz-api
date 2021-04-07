@@ -6,6 +6,7 @@ module.exports = function(Router, CaretakerController) {
 
     router.get('/patients', CaretakerController.getPatients);
 
+    router.post('/patients', CaretakerController.createPatient);
 
     return router;
 };

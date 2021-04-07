@@ -6,7 +6,7 @@ module.exports = function(Router, AdminController) {
 
     router.get('/users', AdminController.getAllUsers);
 
-    router.post('/caretaker', AdminController.createCaretaker);
+    router.post('/caretakers', AdminController.createCaretaker);
 
 
     return router;
