@@ -138,8 +138,8 @@ let runningServer, db;
 runServer()
     .then(testDatabaseConnection)
     .then(syncDatabase)
+    .then(createAccountForEachDifferentUserType)
     .then(onServerRunning)
-    // .then(createAccountForEachDifferentUserType)
     .catch(catchErrorAndShutdown("startup"));
 
 
@@ -204,6 +204,12 @@ const stopServer = () => {
  *
  */
 async function createAccountForEachDifferentUserType() {
+    const User = diContainer.get('User');
+    if (!!await User.findOne({where: {email: 'admin@hva.nl'}})) {
+        console.log(`*** Default users already created ***`);
+        return true;
+    }
+
     const UserService = diContainer.get('UserService');
 
     console.log(`Create admin`)

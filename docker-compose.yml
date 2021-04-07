@@ -26,6 +26,8 @@ services:
       MYSQL_PASSWORD: q94SgYhF5fiq48mzMCAs4Yc6G7qsc7Px3hTEi9ygx4KqGBsL
       DATABASE_HOST: db
     restart: always
+    ports:
+      - "3306:3306"
     volumes:
       - optimuz-db:/var/lib/mysql
   redis:
